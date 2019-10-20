@@ -4,19 +4,27 @@
 
 1. 当前接口路径
 2. 当前接口提交数据类型,如:
+
 GET: 获取数据
+
 POST: 提交或者创建
+
 PUT: 修改数据
+
 DELETE: 删除数据
+
 PATCH: 修改数据,部分修改
+
 3. 参数类型格式: json或者application/x-www-form-urlencoded的数据
 4. 参数字段及限制条件
 5. 返回成功的数据格式
 6. 返回失败的数据格式
 
 下面和后端做以下接口约定,开发阶段使用postman或者curl命令测试接口
+
 认证相关
-POST /auth/register
+
+#### POST /auth/register
 
 功能: 用户注册
 
@@ -45,8 +53,8 @@ POST /auth/register
 
 测试命令
 
-# -d用来传递数据
-# 对于POST和PUT可以: -X POST,对于GET,不加-X
+`# -d用来传递数据`
+`# 对于POST和PUT可以: -X POST,对于GET,不加-X`
 
 curl -d "usernme=Tom&password=123456" -X POST "http://localhost:3000/auth/regitster"
 
