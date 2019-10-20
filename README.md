@@ -34,29 +34,29 @@ PATCH: 修改数据,部分修改
 
 参数字段:
 
-    username: 用户名,长度1-15个字符,只能是字母数字下划线
+username: 用户名,长度1-15个字符,只能是字母数字下划线
 
-    password: 密码,长度6-16位任意字符
+password: 密码,长度6-16位任意字符
 
 返回数据
+
 失败: 
 
-    返回格式: `{"status": "fail", "msg": "错误原因"}`
+返回格式: `{"status": "fail", "msg": "错误原因"}`
 
 成功:
-
     返回格式:
-`{
-    "status": "ok",
-    "msg": "注册成功",
-    "data":  {
-        "id" : 1,
-        "username": "Tom",
-        "avatar": "http://avatar.com/1.png",
-        "createdAt": "2019-10-19T15:15:33.343Z",
-        "updatedAt": "2019-10-19T15:15:33.343Z"
+    {
+        "status": "ok",
+        "msg": "注册成功",
+        "data":  {
+            "id" : 1,
+            "username": "Tom",
+            "avatar": "http://avatar.com/1.png",
+            "createdAt": "2019-10-19T15:15:33.343Z",
+            "updatedAt": "2019-10-19T15:15:33.343Z"
+        }
     }
-}`
 
 测试命令
 
