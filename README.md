@@ -47,19 +47,19 @@ password: 密码,长度6-16位任意字符
 成功:
 
 返回格式:
-
-    {
-        "status": "ok",
-        "msg": "注册成功",
-        "data":  {
-            "id" : 1,
-            "username": "Tom",
-            "avatar": "http://avatar.com/1.png",
-            "createdAt": "2019-10-19T15:15:33.343Z",
-            "updatedAt": "2019-10-19T15:15:33.343Z"
-        }
+```js
+{
+    "status": "ok",
+    "msg": "注册成功",
+    "data":  {
+        "id" : 1,
+        "username": "Tom",
+        "avatar": "http://avatar.com/1.png",
+        "createdAt": "2019-10-19T15:15:33.343Z",
+        "updatedAt": "2019-10-19T15:15:33.343Z"
     }
-
+}
+```
 测试命令
 
 `# -d用来传递数据`
@@ -92,24 +92,27 @@ password: 密码,长度6-16位任意字符
 
 返回格式:
 ```js
-  {
-        "status": "ok",
-        "msg": "注册成功",
-        "data":  {
-            "id" : 1,
-            "username": "Tom",
-            "avatar": "http://avatar.com/1.png",
-            "createdAt": "2019-10-19T15:15:33.343Z",
-            "updatedAt": "2019-10-19T15:15:33.343Z"
-        }
+{
+    "status": "ok",
+    "msg": "注册成功",
+    "data":  {
+        "id" : 1,
+        "username": "Tom",
+        "avatar": "http://avatar.com/1.png",
+        "createdAt": "2019-10-19T15:15:33.343Z",
+        "updatedAt": "2019-10-19T15:15:33.343Z"
     }
+}
 ```
 
 测试命令
 
 `# -d用来传递数据`
+
 `# -i 可以显示响应头`
+
 `# 会发现响应头里有setCookie信息,得到cookie`
+
 `curl -d "usernme=Tom&password=123456"  "http://localhost:3000/auth/login" -i`
 
 
@@ -122,22 +125,26 @@ password: 密码,长度6-16位任意字符
 已经登录的情况
 
 返回格式:
-    {
-        "status": "ok",
-        "isLogin": "true",
-        "data":  {
-            "id" : 1,
-            "username": "Tom",
-            "createdAt": "2019-10-19T15:15:33.343Z",
-            "updatedAt": "2019-10-19T15:15:33.343Z"
-        }
+```js
+{
+    "status": "ok",
+    "isLogin": "true",
+    "data":  {
+        "id" : 1,
+        "username": "Tom",
+        "createdAt": "2019-10-19T15:15:33.343Z",
+        "updatedAt": "2019-10-19T15:15:33.343Z"
     }
+}
+```
 
 没有登录的情况
-    {
-    "status": "ok"
-    "isLogin": false
-    }
+```
+{
+"status": "ok"
+"isLogin": false
+}
+```
 
 测试命令
 
@@ -181,30 +188,34 @@ password: 密码,长度6-16位任意字符
     失败: { "status": "系统异常"}
 成功: 
 返回格式:
-    {
-        "status": "ok",
-        "msg": "获取成功",
-        "total": 200,//全部博客总数
-        "page": 2,//当前页数
-        "totalPage": 10, //总页数
-        "data": {
-            "id": 1,
-            "title": "博客标题",
-            "description": "博客内容简要描述",
-            "user": {
-                "id": 100, //博客所属用户id
-                "username": "博客所属用户username",
-                "avatar": "头像"
-            },
-            "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
-            "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
-        }
+```js
+{
+    "status": "ok",
+    "msg": "获取成功",
+    "total": 200,//全部博客总数
+    "page": 2,//当前页数
+    "totalPage": 10, //总页数
+    "data": {
+        "id": 1,
+        "title": "博客标题",
+        "description": "博客内容简要描述",
+        "user": {
+            "id": 100, //博客所属用户id
+            "username": "博客所属用户username",
+            "avatar": "头像"
+        },
+        "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
+        "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
     }
+}
+```
 
 测试命令
 
 `curl "http://localhost:3000/blog?page=1&userId=1"`
+
 `curl "http://localhost:3000/blog?page=1"`
+
 `curl "http://localhost:3000/blog"`
 
 ### GET /blog/:blogId
@@ -218,23 +229,25 @@ password: 密码,长度6-16位任意字符
 成功: 
 
 返回格式:
-    {
-    "status": "ok",
-    "msg": "获取成功",
-    "data": {
-        "id": 1,
-        "title": "博客标题",
-        "description": "博客内容简要描述",
-        "content": "博客内容",
-        "user": {
-            "id": 100, //博客所属用户id
-            "username": "博客所属用户username",
-            "avatar": "头像"
-        },
-        "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
-        "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
-    }
-    }
+```js
+{
+"status": "ok",
+"msg": "获取成功",
+"data": {
+    "id": 1,
+    "title": "博客标题",
+    "description": "博客内容简要描述",
+    "content": "博客内容",
+    "user": {
+        "id": 100, //博客所属用户id
+        "username": "博客所属用户username",
+        "avatar": "头像"
+    },
+    "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
+    "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
+}
+}
+```
 
 ### POST /blog
 功能: 创建博客
@@ -253,23 +266,25 @@ password: 密码,长度6-16位任意字符
 成功: 
 
 返回格式:
-    {
-    "status": "ok",
-    "msg": 创建成功",
-    "data": {
-        "id": 1,
-        "title": "博客标题",
-        "description": "博客内容简要描述",
-        "content": "博客内容",
-        "user": {
-            "id": 100, //博客所属用户id
-            "username": "博客所属用户username",
-            "avatar": "头像"
-        },
-        "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
-        "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
-    }
-    }
+```js
+{
+"status": "ok",
+"msg": 创建成功",
+"data": {
+    "id": 1,
+    "title": "博客标题",
+    "description": "博客内容简要描述",
+    "content": "博客内容",
+    "user": {
+        "id": 100, //博客所属用户id
+        "username": "博客所属用户username",
+        "avatar": "头像"
+    },
+    "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
+    "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
+}
+}
+```
 
 测试命令
 `curl -d "title=hello&content=world&description=jirengu" -X POST "http://localhost:3000/blog" -b "connect.sid=s%3AdyZh-z5fqPU_ThG9Qn8nGD6euI0UI75e.8uso0k4P6WzqWv02iQCUwxbUML2RdlOCnpKp7RSJpj0"`
@@ -296,31 +311,33 @@ password: 密码,长度6-16位任意字符
 
 返回格式:
 
-    {"status": "fail", "msg": "登录后才能操作"}
-
-    {"status": "fail", "msg": "博客不存在"}
-
-    {"status": "fail", "msg": "无法修改别人的博客"}
+```js
+{"status": "fail", "msg": "登录后才能操作"}
+{"status": "fail", "msg": "博客不存在"}
+{"status": "fail", "msg": "无法修改别人的博客"}
+```
 成功
 
 返回格式:
-    {
-    "status": "ok",
-    "msg": 修改成功",
-    "data": {
-        "id": 1,
-        "title": "博客标题",
-        "description": "博客内容简要描述",
-        "content": "博客内容",
-        "user": {
-            "id": 100, //博客所属用户id
-            "username": "博客所属用户username",
-            "avatar": "头像"
-        },
-        "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
-        "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
-    }
-    }
+```js
+{
+"status": "ok",
+"msg": 修改成功",
+"data": {
+    "id": 1,
+    "title": "博客标题",
+    "description": "博客内容简要描述",
+    "content": "博客内容",
+    "user": {
+        "id": 100, //博客所属用户id
+        "username": "博客所属用户username",
+        "avatar": "头像"
+    },
+    "createdAt": "2019-10-19T15:15:33.343Z", //创建时间
+    "updatedAt": "2019-10-19T15:15:33.343Z", //更新时间
+}
+}
+```
 
 测试命令
 
@@ -337,20 +354,20 @@ password: 密码,长度6-16位任意字符
 失败
 
 返回格式范例
-
-`{"status": "fail", "msg": "登录后才能操作"}`
-`{"status": "fail", "msg": "博客不存在"}`
-`{"status": "fail", "msg": "无法删除别人的博客"}`
-
+```js
+{"status": "fail", "msg": "登录后才能操作"}
+{"status": "fail", "msg": "博客不存在"}
+{"status": "fail", "msg": "无法删除别人的博客"}
+```
 成功
 
 返回格式
-
-    {
-    "status": "ok",
-    "msg": "删除成功"
-    }
-
+```js
+{
+"status": "ok",
+"msg": "删除成功"
+}
+```
 测试命令
 
 `curl -X DELETE "http://localhost:3000/blog/12" -b "connect.sid=s%3AG_Chytg2F0RLWh2wTSCdLWVxpNg1MWWb.nPuMcgyMN6zxuxjSkyu8qSqM1boruol1Nce7egaXrPw"`
@@ -359,15 +376,15 @@ password: 密码,长度6-16位任意字符
 
 ## main.js
 项目入口
-
-    import Vue,app,router from ...
-    new Vue({
-        el:"#app",
-        router,
-        component: { App },
-        template: '<App />
-    })
-
+```js
+import Vue,app,router from ...
+new Vue({
+    el:"#app",
+    router,
+    component: { App },
+    template: '<App />
+})
+```
 ## App.vue
 当前整个项目的模板
 
@@ -403,13 +420,34 @@ import axios
 }`
 ## api接口封装
 
-@/api/auth.js
+### @/api/auth.js
 
 //引入请求接口
 
 `import request from '@/helpers/request'`
 
 把各个接口进行封装,便于后续调用
+```js
+const URL = {
+    REGISTER: '/auth/register',
+    LOGIN: '/auth/login',
+    LOGOUT: '/auth/logout',
+    GET_INFO: '/auth'
+}
 
-
+export default {
+    register({username, password}){
+        return request(URL.REGISTER, 'POST', { username, password })
+    },
+    login({ username, password}){
+        return request(URL.LOGIN, 'POST', { username, password })
+    },
+    logout(){
+        return request(URL.LOGOUT)
+    },
+    getInfo(){
+        return request(URL.GET_INFO)
+    }
+}
+```
 
