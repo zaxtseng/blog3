@@ -3,7 +3,7 @@
     <!-- 创建博客 -->
         <h1>创建文章</h1>
         <h3>文章标题</h3>
-        <el-input v-model="tilte"></el-input>
+        <el-input v-model="title"></el-input>
         <p class="msg">限30个字</p>
         <h3>内容简介</h3>
         <el-input type="textarea" v-model="description" :autosize="{ minRow: 2, maxRows: 4 }"></el-input>
@@ -20,6 +20,29 @@
     </div>
 </template>
 
-<script src="./template.js"></script>
+<script>
+import blog from '@/api/blog'
+
+export default {
+    data(){
+        return {
+            title: '',
+            description: '',
+            content: '',
+            atIndex: false
+        }
+    },
+    methods: {
+        onCreate(){
+            blog.createBlog({ title: this.title, content: this.content, description: this.description, atIndex: this.atIndex})
+                .then(res => {
+                    this.$message.success(res.msg)
+                    this.$router.push({ path: `/detail/${res.data.id}`})
+                })
+        }
+    }
+}
+
+</script>
 
 <style src="../Edit/template.less" lang="less"></style>
