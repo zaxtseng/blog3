@@ -63,7 +63,9 @@ password: 密码,长度6-16位任意字符
 测试命令
 
 `# -d用来传递数据`
+
 `# 对于POST和PUT可以: -X POST,对于GET,不加-X`
+
 `curl -d "usernme=Tom&password=123456" -X POST "http://localhost:3000/auth/regitster"`
 
 
@@ -89,7 +91,8 @@ password: 密码,长度6-16位任意字符
 成功:
 
 返回格式:
-    {
+```js
+  {
         "status": "ok",
         "msg": "注册成功",
         "data":  {
@@ -100,6 +103,7 @@ password: 密码,长度6-16位任意字符
             "updatedAt": "2019-10-19T15:15:33.343Z"
         }
     }
+```
 
 测试命令
 
