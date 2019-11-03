@@ -6,7 +6,7 @@ function friendlyDate(datsStr){
     let str = ''
     
     switch(true){
-        case space <60000:
+        case space < 60000:
             str = '刚刚'
             break
         case space < 1000*3600:
@@ -22,7 +22,7 @@ function friendlyDate(datsStr){
 }
 
 export default {
-    install(Vue, options){
+    install(Vue, options) {
         Vue.prototype.friendlyDate = friendlyDate
     }
 }

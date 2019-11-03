@@ -9,7 +9,7 @@
             <router-link class="item" v-for="blog in blogs" :key="blog.id" :to="`/detail/${blog.id}`">
                <div class="date">
                     <span class="day">{{splitDate(blog.createdAt).date}}</span>
-                    <span class="mouth">{{splitDate(blog.createdAt).month}}月</span>
+                    <span class="month">{{splitDate(blog.createdAt).month}}月</span>
                     <span class="year">{{splitDate(blog.createdAt).year}}</span>   
                 </div>
                 <h3>{{blog.title}}</h3>  
@@ -36,9 +36,9 @@ import blog from '@/api/blog'
 import { mapGetters } from 'vuex'
 
 export default {
-    data(){
+    data () {
         return {
-            blog: [],
+            blogs: [],
             page: 1,
             total: 0
         }
@@ -48,26 +48,26 @@ export default {
         ...mapGetters(['user'])
     },
 
-    created(){
+    created () {
         this.page = parseInt(this.$route.query.page) || 1
         blog.getBlogsByUserId(this.user.id, { page: this.page })
-            .then(res =>{
+            .then(res => {
                 this.page = res.page
                 this.total = res.total
                 this.blogs = res.data
             })
     },
     methods: {
-        onPageChange(newPage){
-            blog.getBlogsByUserId(this.user.id, { page: newPage }).then(res =>{
+        onPageChange(newPage) {
+            blog.getBlogsByUserId(this.user.id, { page: newPage }).then(res => {
             this.blogs = res.data
             this.total = res.total
             this.page = res.page    
             this.$router.push({ path: "/my", query: { page: newPage}})
             })
     },
-        async onDelete(blogId){
-            await this.$confirm('此操作将永久删除该文件,是否继续?', '提示', {
+        async onDelete(blogId) {
+            await this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -78,11 +78,11 @@ export default {
             this.blogs = this.blogs.filter(blog => blog.id != blogId)
         },
 
-        splitDate(dataStr){
+        splitDate(dataStr) {
             let dateObj = typeof dataStr === 'object' ? dataStr : new Date(dataStr)
             return {
                 date: dateObj.getDate(),
-                mouth: dateObj.getMouth() + 1,
+                month: dateObj.getMonth() + 1,
                 year: dateObj.getFullYear()
             }
         }

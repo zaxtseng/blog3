@@ -24,10 +24,10 @@ export default {
     updateBlog({blogId}, {title, content, description, atIndex}){
         return request(URL.UPDATE.replace(':blogId', blogId), 'PATCH', {title, content, description, atIndex})
     },
-    deteleBlog({blogId}){
+    deleteBlog({blogId}){
         return request(URL.DELETE.replace(':blogId', blogId), 'DELETE')
     },
-    createBlog({title = '', content = '', description = ''} = {title: '', content: '', description: ''}){
+    createBlog({title = '', content = '', description = ''} = {title: '', content: '', description: '' }){
         return request(URL.CREATE, 'POST', {title, content, description})
     }
 }

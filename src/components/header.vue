@@ -1,19 +1,21 @@
 <template>
   <header :class="{'login': isLogin, 'no-login': !isLogin}">
     <template v-if="!isLogin">
-      <h1>Just do it</h1>
-    <p>精品博客</p>
-    <div class="btns">
-      <el-button><router:link>立即登录</router:link></el-button>
-      <el-button><router:link>注册账号</router:link></el-button>
-    </div>
+
+        <h1>Just do it</h1>
+      <p>精品博客</p>
+      <div class="btns">
+        <router-link to='/login'><el-button>立即登录</el-button></router-link>
+        <router-link to='/register'><el-button>注册账号</el-button></router-link>
+      </div>
     </template>
+
     <template v-if="isLogin">
-      <router-link to="/"><h1>Just do it</h1></router-link>
+      <h1><router-link to="/">Just do it</router-link></h1>
       <router-link to="/create"><i class="edit el-icon-plus"></i></router-link>
       
       <div class="user">
-        <img class="avatar" :src="user.avatar" :alt="user.username">
+        <img class="avatar" :src="user.avatar" :alt="user.username" :title="user.username"> 
       <ul>
         <li><router-link to="/my">我的</router-link></li>
         <li><a href="#" @click="onLogout">注销</a></li>
@@ -24,14 +26,14 @@
 </template>
 
 <script>
+import auth from '@/api/auth'
+
 
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data(){
-    return {
-      isLogin: true
-    }
+    return {}
   },
 
   computed: {
@@ -62,7 +64,7 @@ export default {
 <style lang="less">
 @import "../assets/base.less";
 
-header .login {
+header.no-login {
   padding: 0 12% 30px 12%;
   background-color: @bgColor;
   display: grid;
@@ -89,7 +91,7 @@ button {
 
 }
 
-header .no-login {
+header.login {
   display: flex;
   align-items: center;
   background-color: @bgColor;
@@ -119,7 +121,7 @@ header .no-login {
     border-radius: 50%;
     margin-left: 15px;
   }
-}
+
 
 .user {
   position: relative;
@@ -134,18 +136,22 @@ header .no-login {
     padding: 0;
     background-color: #fff;
 
-    a{
-      text-decoration: none;
-      color: #333;
-      font-size: 12px;
-      display: block;
-      padding: 5px 10px;
+    a {
+        text-decoration: none;
+        color: #333;
+        font-size: 12px;
+        display: block;
+        padding: 5px 10px;
+
+        &:hover {
+          background-color: #eaeaea;
+        }
+      }
+    }
 
       &:hover ul {
         display: block;
       }
-    }
-
   }
 }
 </style>

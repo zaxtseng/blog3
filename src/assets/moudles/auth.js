@@ -30,8 +30,8 @@ const actions = {
 
     async register({ commit }, { username, password }){
         let res = await auth.register({ username, password })
-        commit('setUser', { user: res.data})
-        commit('setLogin', { isLogin: true})
+        commit('setUser', { user: res.data })
+        commit('setLogin', { isLogin: true })
         return res.data
     },
 

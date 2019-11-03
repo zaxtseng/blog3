@@ -7,11 +7,11 @@
                     <img :src="blog.user.avatar" :alt="blog.user.username">
                     <figcaption>{{blog.user.username}}</figcaption>
                 </figure>
-                <h3>{{blog.title}}<span> {{friendlyDate(blog.createAt)}}</span></h3>
+                <h3>{{blog.title}}<span> {{friendlyDate(blog.createdAt)}}</span></h3>
                 <p>{{blog.description}}</p>
             </router-link>
         </section>
-        <section class="pagination">
+        <section class="pagination">    
             <el-pagination 
             layout="prev, pager, next" 
             :total="total" 
@@ -30,7 +30,7 @@ export default {
         return {
             blogs: [],
             total: 0,
-            page: 1
+            page: 1 
         }
     },
 

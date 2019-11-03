@@ -266,7 +266,7 @@ password: 密码,长度6-16位任意字符
 成功: 
 
 返回格式:
-```js
+```j
 {
 "status": "ok",
 "msg": 创建成功",
@@ -319,7 +319,7 @@ password: 密码,长度6-16位任意字符
 成功
 
 返回格式:
-```js
+```
 {
 "status": "ok",
 "msg": 修改成功",
@@ -450,4 +450,337 @@ export default {
     }
 }
 ```
+## 封装blog接口
+同样引入请求接口
+`import request from '@/helpers/request'`
+
+封装blog的各个接口
+```js
+const URL = {
+    GET_LIST: '/blog',
+    GET_DETAIL: '/blog/:blogId',
+    CREATE: '/blog',
+    UPDATE: '/blog/:blogId',
+    DELETE: '/blog/:blogId'
+}
+export default {
+    getBlogs({ page=1, userId, atIndex } = { page:1 }){
+        return request(URL.GET_LIST, 'GET', { page, userId, atIndex })
+    },
+    getIndexBlogs({ page=1 } = { page: 1 }){
+        return this.getBlogs({ userId, page, atIndex })
+    }
+    getDetail({ blogId }){
+        return  reuqest(URL.GET_DETAIL, replace(':blogId', blogId))
+    },
+    updateBlog({ blogId }, { title, content, description, atIndex }){
+        return request(URL.UPDATE, replace(':blogId', blogId), 'PATCH', { title, content, description, atIndex })
+    },
+    deleteBlog({ blogId }){
+        return request(URL.DELETE, replace(':blogId',blogId), 'DELETE')
+    },
+    createBlog({ title = '', content = '', description = '',atIndex = false } = { title = '', content = ''}){
+        return request(URL.CREATE, 'POST', { title, content, description })
+    }
+}
+```
+
+# 首页布局
+...
+
+# 状态管理
+store.js
+```js
+// @/assets/moudles/auth.js
+const state = {
+    user: null,
+    isLogin: false
+}
+
+const getters = {
+    user:state => state.user,
+    isLogin:state => state.isLogin
+}
+
+const mutations = {
+    setUser(state, payload){
+        state.user = payloag.user
+    },
+    setLogin(state, payload){
+        state.isLogin = payload.isLogin
+    }
+}
+
+const actions = {
+    async login({ commit }, { username, password }){
+        let res = await auth.login({ username, password })
+        commit('setUser', { user: res.data})
+        commit('setLogin', { isLogin: true })
+        return res.data
+    },
+    async register({ commit }, { username, password }){
+        let res = await auth.register({ username, password})
+        commit('setUser', { user: res.data})
+        commit('setLogin', { isLogin: true })
+        return res.data
+    },
+    async logout({ commit }){
+        await auth.logout()
+        commit('setUser', { user: null })
+        commit('setLogin', { isLogin: false })
+    },
+    async checkLogin({ commit, state }){
+        //判断state中是否有登录状态,有返回true
+        if(state.isLogin) return true
+        //如果state中没有,调用res
+        let res = await auth.getInfo()
+        //从res中获取isLogin状态设置Login
+        commit('setLogin', { isLogin: res.isLogin }) 
+        //如果res中未登录,返回false
+        if(!res.isLogin) return false
+        //如果res中已登录,设置user并返回true
+        commit('setUser', { user: res.data })
+        return true
+    }
+}
+
+export default {
+    state,
+    getters,
+    mutations,
+    actions
+}
+```
+# 在header.vue中调用vuex中的参数
+```js
+//header.vue
+import { mapState, mapActions } from 'vuex'
+
+export default {
+    data(){
+        return {}
+    },
+    computed(){
+        ...mapGetters([
+            'isLogin',
+            'user'
+        ])
+    },
+    created(){
+        //在生命周期created调用methods的方法
+        this.checkLogin()
+    },
+
+    methods: {
+        //将state中的方法映射进来
+        ...mapActions({
+            'checkLogin'
+        })
+    }
+}
+```
+# 登录和注册
+```js
+// Login/template.vue
+<template>
+    <div id="login">
+        <h4>用户名</h4>
+        <input v-model="username" placeholder="用户名">
+        <h4>密码</h4>
+        <input v-model="password" type="password" placeholder="密码" @key.enter="onLogin">
+        <el-button size="medium" @click="onLogin">立即登录</el-button>
+        <p class="notice">没有账号?<router-link to="/register">注册新用户</router-link></p>
+    </div>
+</template>
+```
+```js
+//Login/template.js
+import { mapActions } from 'vuex'
+
+export default {
+    data(){
+        return {
+            username: '',
+            password: ''
+        }
+    },
+    methods: {
+        //把login从vuex中拿出来
+        ...mapActions(['login'])
+
+        onLogin(){
+            //test
+            console.log(this.username + this.password)
+            //执行登录,把用户名密码传递
+            this.login({username: this.username, password: this.password})
+            //调用then下一步操作,跳转到首页或者定向页面
+                .then(() => {
+                    this.$router.push({path: this.$route.query.redirect || '/'})
+                })
+        }
+    }
+}
+```
+## 注册
+注册类似于登录
+将login换成register即可.
+
+# 路由组件router.js
+```js
+import Vue from 'vue'
+import Router from 'vue-router'
+
+//引入store为了checkin
+import store from './src/store.js'
+
+Vue.use(Router)
+
+//先声明,最后再导出
+const router =  new Router({
+  routes: [
+    {
+      path: '/',
+      //使用匿名函数import方式实现异步懒加载
+      //当需要跳转该模块时才会引入相关路径
+      component: () => import('@/pages/Index/template.vue')
+    },
+    {
+      path: '/login',
+      component: () => import('@/pages/Login/template.vue')
+    },
+    {
+      path: '/detail/:blogId',
+      component: () => import('@/pages/Detail/template.vue')
+    },
+    {
+      path: '/edit/:blogId',
+      component: () => import('@/pages/Edit/template.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/create',
+      component: () => import('@/pages/Create/template.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/user/:userId',
+      component: () => import('@/pages/User/template.vue')
+    },
+    {
+      path: '/my',
+      component: () => import('@/pages/My/template.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/register',
+      component: () => import('@/pages/Register/template.vue')
+    }
+  ]
+})
+
+router.beforeEach((to,from,next) => {
+    //判断是否有元信息meta
+    if(to.matched.some(record => record.meta.requiresAuth)){
+        //如果有就触发checkLogin检查登录状态
+        store.dispatch('checkLogin').then(isLogin => {
+            if(!isLogin){
+                next({
+                    path: '/login',
+                    query: { redirect: to.fullPath }
+                })
+            }else{
+                next()
+            }
+        })
+    }else{
+        next()
+    }
+})
+
+export default router
+
+```
+
+# 创建博客页面
+```js
+<template>
+    <div id="edit">
+    <!-- 创建博客 -->
+        <h1>创建文章</h1>
+        <h3>文章标题</h3>
+        <el-input v-model="title"></el-input>
+        <p class="msg">限30个字</p>
+        <h3>内容简介</h3>
+        <el-input type="textarea" v-model="description" :autosize="{ minRow: 2, maxRows: 4 }"></el-input>
+        <p class="msg">限30个字</p>
+        <h3>文章内容</h3>
+        <el-input type="textarea" v-model="content" :autosize="{ minRow: 4, maxRows: 30 }"></el-input>
+        <p class="msg">限30个字</p>
+        <p>
+            <label>是否展示到首页</label>
+            <el-switch v-model="atIndex" active-color="#13ce66" inactive-color="#fff">
+            </el-switch>
+        </p>
+            <el-button @click="onCreate">确定</el-button>
+    </div>
+</template>
+
+<script>
+import blog from '@/api/blog'
+
+export default {
+    data(){
+        return {
+            title: '',
+            description: '',
+            content: '',
+            atIndex: false
+        }
+    },
+    methods: {
+        onCreate(){
+            blog.createBlog({ title: this.title, content: this.content, description: this.description, atIndex: this.atIndex})
+                .then(res => {
+                    this.$message.success(res.msg)
+                    this.$router.push({ path: `/detail/${res.data.id}`})
+                })
+        }
+    }
+}
+
+</script>
+```
+# 完善首页
+
+
+
+# 详情页
+
+
+
+# 时间插件
+
+
+
+# 个人页面user
+
+有点东西
+
+# 登陆者的个人页面my
+
+
+
+
+
+# 遇到过的问题
+1. vuex中actions错误(原因: modules拼错了)
+2. 登录时enter无法使用.(解决方法: 加.native)
+3. 文章内容应有一定区域(原因: 没写palceholder)
+4. 编辑时少一个设置为首页的按钮(原因:按钮初始颜色透明)
+5. my页面无法显示(原因: 因为错误6)
+6. 过滤器getMouth错误,(原因: mouth单词拼错)
+7. my页面编辑删除两个按钮靠的太近
+8. header布局错误(原因: h1标签没有把router-link包裹,如果包裹,less有设置h1下a标签的颜色为白色.
+没有包裹的时候,a标签的颜色是common.less设置的黑色,会覆盖)
+标题颜色错误,把标题文本和普通文本颜色算在一起了.
 

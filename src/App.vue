@@ -5,6 +5,7 @@
       <router-view/>   
     </main>
     <Footer id="footer"></Footer>
+    
   </div>
 </template>
 
@@ -64,7 +65,4 @@ export default {
   }
 
 }
-
-
-
 </style>

@@ -6,7 +6,7 @@ import blog from '@/assets/moudles/blog'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  moudles: {
+  modules: {
     auth,
     blog
   }
