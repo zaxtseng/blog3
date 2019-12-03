@@ -1,4 +1,7 @@
 # blog3
+# 说明
+使用Vue-cli3搭建,高度集成webpack,不暴露webpack配置,相应插件需要自行创建vue.config.js,在其中配置.
+
 # 前后端接口约定
 ## 后端接口规范
 
